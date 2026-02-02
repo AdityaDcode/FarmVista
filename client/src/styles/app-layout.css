@@ -1,0 +1,19 @@
+/* ===== App Layout ===== */
+.app-layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(to bottom, var(--color-gray-50), var(--color-white), var(--color-green-50));
+}
+
+.app-content {
+  flex: 1;
+  padding-bottom: 40px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .app-content {
+    padding-bottom: 20px;
+  }
+}

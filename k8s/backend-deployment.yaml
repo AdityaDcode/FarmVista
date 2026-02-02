@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: farmvista-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: farmvista-backend
+  template:
+    metadata:
+      labels:
+        app: farmvista-backend
+    spec:
+      containers:
+        - name: backend
+          image: farmvista-backend
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 5000
+
+          # 🔥 SELF-HEALING CONFIG
+          livenessProbe:
+            httpGet:
+              path: /api/health
+              port: 5000
+            initialDelaySeconds: 15
+            periodSeconds: 10
+            failureThreshold: 3
+
+          readinessProbe:
+            httpGet:
+              path: /api/health
+              port: 5000
+            initialDelaySeconds: 5
+            periodSeconds: 5
+
+          # 🔒 RESOURCE CONSTRAINT (6GB RAM PROOF)
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "100m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"

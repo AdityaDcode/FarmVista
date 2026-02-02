@@ -1,0 +1,25 @@
+- name: Deploy FarmVista Backend to Kubernetes
+  hosts: localhost
+  connection: local
+  gather_facts: false
+
+  tasks:
+    - name: Build backend Docker image
+      command: docker build -t farmvista-backend ./server
+      args:
+        chdir: "{{ playbook_dir }}/.."
+
+    - name: Load image into Minikube
+      command: minikube image load farmvista-backend
+      async: 600
+      poll: 5
+    - name: Apply Kubernetes deployment
+      command: kubectl apply -f ./k8s/backend-deployment.yaml
+      args:
+        chdir: "{{ playbook_dir }}/.."
+
+    - name: Restart backend deployment
+      command: kubectl rollout restart deployment farmvista-backend
+
+
+
