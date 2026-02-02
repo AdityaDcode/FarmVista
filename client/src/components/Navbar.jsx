@@ -18,7 +18,7 @@ const Navbar = () => {
       <div className="navbar-container">
         <Link to="/" className="navbar-brand">
           <img src="/logo.svg" alt="FarmVista Logo" className="brand-logo" />
-          <span className="brand-text">FarmVistaa</span>
+          <span className="brand-text">FarmVistaaa</span>
         </Link>
 
         <button 
