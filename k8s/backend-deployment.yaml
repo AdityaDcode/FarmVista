@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: farmvista-backend
+          image: farmvista-backend:V1
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 5000

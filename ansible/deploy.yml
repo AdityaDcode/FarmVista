@@ -3,23 +3,19 @@
   connection: local
   gather_facts: false
 
+  vars:
+    project_root: "{{ playbook_dir }}/.."
+    image_tag: v1
+
   tasks:
     - name: Build backend Docker image
-      command: docker build -t farmvista-backend ./server
-      args:
-        chdir: "{{ playbook_dir }}/.."
+      command: docker build -t farmvista-backend:{{ image_tag }} {{ project_root }}/server
 
     - name: Load image into Minikube
-      command: minikube image load farmvista-backend
-      async: 600
-      poll: 5
-    - name: Apply Kubernetes deployment
-      command: kubectl apply -f ./k8s/backend-deployment.yaml
-      args:
-        chdir: "{{ playbook_dir }}/.."
+      command: minikube image load farmvista-backend:{{ image_tag }}
+
+    - name: Update Kubernetes image
+      command: kubectl set image deployment/farmvista-backend backend=farmvista-backend:{{ image_tag }}
 
     - name: Restart backend deployment
       command: kubectl rollout restart deployment farmvista-backend
-
-
-

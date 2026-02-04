@@ -27,7 +27,7 @@ const Home = () => {
           
           <h1 className="hero-title">
             <span className="title-farm">Farm</span>
-            <span className="title-vista">Vista</span>
+            <span className="title-vista">Vistaaa</span>
           </h1>
           
           <p className="hero-subtitle">
