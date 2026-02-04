@@ -1,19 +1,10 @@
-const mongoose = require('mongoose');
-
+// MongoDB connection disabled: provide a safe no-op connect function.
+// This prevents the server from exiting if `MONGO_URI` is not set.
 const connectDB = async () => {
-  try {
-    const uri = process.env.MONGO_URI;
-
-    if (!uri) {
-      throw new Error('MONGO_URI is not defined in environment variables');
-    }
-
-    await mongoose.connect(uri);
-
-    console.log('✅ MongoDB connected successfully');
-  } catch (error) {
-    console.error('❌ MongoDB connection failed:', error.message);
-    process.exit(1);
+  if (process.env.MONGO_URI) {
+    console.log('MONGO_URI is set but MongoDB connection has been intentionally disabled.');
+  } else {
+    console.log('MongoDB connection disabled — skipping connect.');
   }
 };
 

@@ -18,6 +18,9 @@ spec:
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 5000
+          env:
+            - name: MONGO_URI
+              value: ""
 
           # 🔥 SELF-HEALING CONFIG
           livenessProbe:
