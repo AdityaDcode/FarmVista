@@ -27,21 +27,23 @@ app.use('/api/farms', farmRoutes);
 app.use('/api/advice', adviceRoutes);
 
 //For docker project
-let isAlive = true;
+
 
 app.get('/api/kill', (req, res) => {
-  res.send('Crashing server intentionally');
-  process.exit(1); // 🔥 Force crash
+  res.send('Simulating crash');
+  setTimeout(() => {
+    process.exit(1);
+  }, 1000);
 });
 
+let isAlive = true;
 
 app.get('/api/health', (req, res) => {
   if (!isAlive) {
     return res.status(500).json({ status: 'DOWN' });
   }
-  res.json({ status: 'UP UP up' });
+  res.json({ status: 'UP up' });
 });
-
 
 // 404 handler
 app.use((req, res) => {
@@ -60,6 +62,7 @@ app.use((error, req, res, next) => {
 // Start server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
+  isAlive = true;
   console.log(`\n🚀 FarmVista Backend running on http://localhost:${PORT}`);
   console.log(`📝 Environment: ${process.env.NODE_ENV}\n`);
 });
