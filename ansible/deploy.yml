@@ -1,21 +1,22 @@
-- name: Deploy FarmVista Backend to Kubernetes
+- name: Deploy Backend to Kubernetes
   hosts: localhost
   connection: local
   gather_facts: false
 
   vars:
     project_root: "{{ playbook_dir }}/.."
-    image_tag: v1
+    image_tag: "{{ lookup('pipe', 'git rev-parse --short HEAD') }}"
 
   tasks:
+
     - name: Build backend Docker image
       command: docker build -t farmvista-backend:{{ image_tag }} {{ project_root }}/server
 
     - name: Load image into Minikube
       command: minikube image load farmvista-backend:{{ image_tag }}
 
-    - name: Update Kubernetes image
+    - name: Update Kubernetes deployment image
       command: kubectl set image deployment/farmvista-backend backend=farmvista-backend:{{ image_tag }}
 
-    - name: Restart backend deployment
-      command: kubectl rollout restart deployment farmvista-backend
+    - name: Wait for rollout
+      command: kubectl rollout status deployment/farmvista-backend
