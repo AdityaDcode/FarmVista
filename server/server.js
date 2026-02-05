@@ -42,7 +42,7 @@ app.get('/api/health', (req, res) => {
   if (!isAlive) {
     return res.status(500).json({ status: 'DOWN' });
   }
-  res.json({ status: 'UP UP' });
+  res.json({ status: 'UP UP UPP' });
 });
 
 // 404 handler
